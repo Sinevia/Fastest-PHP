@@ -6,6 +6,6 @@ function app($actions = []) {
             die(call_user_func($action));
         }
     }
-    die('Page Not Found (404)');
+    header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found");
 }
 ?>
