@@ -1,5 +1,5 @@
 <?php
-function app($actions = []) {
+function serve($actions = []) {
     $action = (isset($_REQUEST['a']) == true AND $_REQUEST['a'] !== '') ? $_REQUEST['a'] : $actions[0];
     if (in_array($action, $actions)) {
         if (function_exists($action)) {
