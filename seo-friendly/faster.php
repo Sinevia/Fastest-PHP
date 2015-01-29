@@ -1,3 +1,4 @@
+<?php
 function serve($routemap) {
 
     function findRoute($routemap) {
@@ -16,10 +17,16 @@ function serve($routemap) {
     }
 
     function getUri() {
+        if (isset($_SERVER['PATH_INFO'])) {
+            return $_SERVER['PATH_INFO'];
+        }
         // 1. Uri
-        $uri = isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : $_SERVER['REQUEST_URI'];
+        $uri = $_SERVER['REQUEST_URI'];
         // 2. Remove normal query string
         $uri = (strpos($uri, '?') !== false) ? substr($uri, 0, strpos($uri, '?')) : $uri;
+        if (stripos($uri, '/' . $_SERVER['SCRIPT_NAME']) === false) {
+            return '/';
+        }
         // Does URI start with dir name?
         $dir_name = dirname($_SERVER['SCRIPT_NAME']);
         $uri = (stripos($uri, str_replace(DIRECTORY_SEPARATOR, "/", $dir_name), 0) === 0) ? substr($uri, strlen($dir_name)) : $uri;
@@ -40,5 +47,6 @@ function serve($routemap) {
         }
     }
 
-    header($_SERVER["SERVER_PROTOCOL"] . " 404 Not Found");
+    die('404 - Page Not Found');
 }
+?>

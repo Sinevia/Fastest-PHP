@@ -1,19 +1,17 @@
 <?php
 include 'fastest.min.php';
 
-server(['home','about']); // First action is default
-
 /**
- * Route /
+ * Route / or /?a=home
  */
-function home(){
+function home_action(){
     return 'Hello world';
 }
 
 /**
  * Route /?a=about
  */
-function about(){
+function about_action(){
     return 'Fastest PHP Framework';
 }
 ?>
