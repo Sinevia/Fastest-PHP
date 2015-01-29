@@ -1,6 +1,6 @@
-function app($routemap) {
+function serve($routemap) {
 
-    function findRoute($routemap, $route) {
+    function findRoute($routemap) {
         $tokens = array(
             ':string' => '([a-zA-Z]+)',
             ':number' => '([0-9]+)',
@@ -8,15 +8,25 @@ function app($routemap) {
         );
         foreach ($routemap as $index => $action) {
             $pattern = strtr($index, $tokens);
-            if (preg_match('#^/?' . $pattern . '/?$#', $route, $matches)) {
+            if (preg_match('#^/?' . $pattern . '/?$#', getUri(), $matches)) {
                 return array($index, $matches);
             }
         }
         return null;
     }
 
-    $path = isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : $_SERVER['REQUEST_URI'];
-    $result = findRoute($routemap, $path);
+    function getUri() {
+        // 1. Uri
+        $uri = isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : $_SERVER['REQUEST_URI'];
+        // 2. Remove normal query string
+        $uri = (strpos($uri, '?') !== false) ? substr($uri, 0, strpos($uri, '?')) : $uri;
+        // Does URI start with dir name?
+        $dir_name = dirname($_SERVER['SCRIPT_NAME']);
+        $uri = (stripos($uri, str_replace(DIRECTORY_SEPARATOR, "/", $dir_name), 0) === 0) ? substr($uri, strlen($dir_name)) : $uri;
+        return $uri;
+    }
+
+    $result = findRoute($routemap);
 
     if ($result != null) {
         $action = $routemap[$result[0]];
