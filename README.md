@@ -1,5 +1,5 @@
 # Fastest
-The fastest PHP framework
+The fastest PHP framework. Only 0.247 kb
 
 1. Use "fastest.min.php" for fastest performance. 
    - Plain and vanilla PHP.
