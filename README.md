@@ -23,7 +23,6 @@ How many per second?
 How to use:
 -------------------------
 <pre>
-<?php
 include 'fastest.min.php';
 /**
  * Route / or /?a=home
@@ -37,5 +36,4 @@ function home_action(){
 function about_action(){
     return 'Fastest PHP Framework';
 }
-?>
 </pre>
