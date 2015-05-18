@@ -19,3 +19,23 @@ The fastest PHP framework
 
 How many per second?
 <a href="https://www.google.co.uk/search?q=60/0.00012&ie=utf-8&oe=utf-8&gws_rd=cr&ei=VI3KVJVoxK1Tq4eEgA4#q=60%2F0.00011" target="_blank">Check here</a>
+
+How to use:
+-------------------------
+<pre>
+<?php
+include 'fastest.min.php';
+/**
+ * Route / or /?a=home
+ */
+function home_action(){
+    return 'Hello world';
+}
+/**
+ * Route /?a=about
+ */
+function about_action(){
+    return 'Fastest PHP Framework';
+}
+?>
+</pre>
