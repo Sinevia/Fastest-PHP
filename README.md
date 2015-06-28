@@ -24,12 +24,14 @@ How to use:
 -------------------------
 <pre>
 include 'fastest.min.php';
+
 /**
  * Route / or /?a=home
  */
 function home_action(){
     return 'Hello world';
 }
+
 /**
  * Route /?a=about
  */
