@@ -1,4 +1,5 @@
 <?php
+
 function serve($routemap) {
 
     function findRoute($routemap) {
@@ -7,6 +8,7 @@ function serve($routemap) {
             ':number' => '([0-9]+)',
             ':alpha' => '([a-zA-Z0-9-_]+)'
         );
+        krsort($routemap);
         foreach ($routemap as $index => $action) {
             $pattern = strtr($index, $tokens);
             if (preg_match('#^/?' . $pattern . '/?$#', getUri(), $matches)) {
@@ -43,10 +45,25 @@ function serve($routemap) {
         if (count($actions) > 1) {
             die(call_user_func_array([new $actions[0], $actions[1]], $params));
         } else {
-            die(call_user_func_array($actions[0], $params));
+            if (function_exists($actions[0])) {
+                die(call_user_func_array($actions[0], $params));
+            }
+            $class = $actions[0];
+            if (isset($actions[1]) == false AND class_exists($class)) {
+                $method = count($params) > 0 ? $params[0] : 'home';
+                try {
+                    $reflectionMethod = new ReflectionMethod($class, $method);
+                    if ($reflectionMethod->isPublic() == true) {
+                        die($reflectionMethod->invokeArgs(new $class, $params));
+                    }
+                } catch (Exception $e) {
+                     
+                }
+            }
         }
     }
 
     die('404 - Page Not Found');
 }
+
 ?>
